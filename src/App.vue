@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import BaseSelect from './components/BaseSelect.vue';
 import { computed } from 'vue';
+import CurrencySelect from './components/CurrencySelect.vue';
+import ColorSelect from './components/ColorSelect.vue';
 
   const items = computed(() => [
     { value: 'value 1', label: 'option 1'},
@@ -10,10 +12,15 @@ import { computed } from 'vue';
 </script>
 
 <template>
-  <div>
-    <BaseSelect :items="items" />
+  <div class="content">
+    <CurrencySelect />
+    <ColorSelect />
   </div>
 </template>
 
-<style scoped>
+<style scoped lang="scss">
+  .content {
+    display: flex;
+    gap: 16px;
+  }
 </style>
