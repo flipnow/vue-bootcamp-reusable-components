@@ -1,16 +1,5 @@
 <script setup lang="ts"></script>
 
-<template>
-  <div role="option"><slot /></div>
-</template>
+<template></template>
 
-<style scoped lang="scss">
-div {
-  width: 100%;
-  cursor: pointer;
-
-  &:hover {
-    color: lightblue;
-  }
-}
-</style>
+<style scoped lang="scss"></style>

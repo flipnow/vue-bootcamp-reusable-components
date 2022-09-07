@@ -1,33 +1,28 @@
 <script setup lang="ts">
+import { stringifyStyle } from '@vue/shared';
 import { computed, ref } from 'vue';
-import BaseOption from './BaseOption.vue';
 
 const props = defineProps<{
   items: { value: string; label: string }[];
-  modelValue?: string;
+  modelValue: string;
 }>();
 
 defineEmits(['update:model-value']);
 
-const selectedOption = computed(() => {
+const isOpen = ref(false);
+
+const selectedOptionsLabel = computed(() => {
   return (
-    props.items.find(({ value }) => props.modelValue === value)?.label ||
-    'select'
+    props.items.find(({ value }) => value === props.modelValue)?.label ||
+    'Select'
   );
 });
-
-const isOpen = ref(false);
 </script>
 
 <template>
   <div class="select">
-    <button
-      id="button"
-      aria-haspopup="listbox"
-      :aria-expanded="isOpen"
-      @click="isOpen = !isOpen"
-    >
-      {{ selectedOption }}
+    <button aria-haspopup="true" aria-controls="list" @click="isOpen = !isOpen">
+      {{ selectedOptionsLabel }}
     </button>
     <div
       v-if="isOpen"
@@ -35,10 +30,11 @@ const isOpen = ref(false);
       role="listbox"
       :aria-activedescendant="modelValue"
     >
-      <BaseOption
+      <div
         v-for="item in items"
         :key="item.value"
-        :id="item.value"
+        :value="item.value"
+        role="option"
         @click="$emit('update:model-value', item.value)"
       >
         <slot :name="item.value" v-bind="item">
@@ -46,24 +42,14 @@ const isOpen = ref(false);
             {{ item.label }}
           </slot>
         </slot>
-      </BaseOption>
+      </div>
     </div>
   </div>
 </template>
 
 <style scoped lang="scss">
-.select {
-  position: relative;
-}
-
-button {
-  width: 200px;
+select {
+  width: 300px;
   padding: 12px;
-}
-
-#list {
-  position: absolute;
-  top: 100%;
-  padding-left: 12px;
 }
 </style>
